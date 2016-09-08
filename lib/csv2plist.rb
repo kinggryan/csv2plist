@@ -9,7 +9,7 @@ module Csv2plist
   def self.convert(src, dst, opts={})
     rows = CSV.read(src)
     cols = rows[0]
-    entries = []
+    entries = {}
     puts "Columns: #{cols.inspect}"
     (1..rows.length-1).each do |row|
       vals = rows[row]
@@ -20,7 +20,7 @@ module Csv2plist
           dict[c] = value if c && value.length > 0
         end
       end
-      entries << dict
+      entries[vals[0]] = dict
     end
     entries.save_plist(dst)
   end
