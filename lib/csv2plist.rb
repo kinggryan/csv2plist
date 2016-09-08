@@ -11,14 +11,24 @@ module Csv2plist
     cols = rows[0]
     entries = {}
     puts "Columns: #{cols.inspect}"
+    
+    startIndex = 1
+    if cols.length == 2
+      startIndex = 0
+    end
+    
     (1..rows.length-1).each do |row|
       vals = rows[row]
       dict = {}
-      cols.each_with_index do |c,i|
-        if vals[i]
-          value = vals[i].strip
-          dict[c] = value if c && value.length > 0
+      if cols.length > 2
+        cols.each_with_index do |c,i|
+          if vals[i]
+            value = vals[i].strip
+            dict[c] = value if c && value.length > 0
+          end
         end
+      else
+        dict = vals[1].strip
       end
       entries[vals[0]] = dict
     end
